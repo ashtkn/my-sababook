@@ -2,7 +2,7 @@
 
 Original repo: [https://github.com/d0iasm/sababook](https://github.com/d0iasm/sababook)
 
-## Dev
+## Run
 
 ```sh
 # On shell
@@ -10,4 +10,12 @@ Original repo: [https://github.com/d0iasm/sababook](https://github.com/d0iasm/sa
 
 # On QEMU
 saba
+```
+
+## Test
+
+```sh
+# Testing saba_core
+cd saba_core
+cargo test
 ```
