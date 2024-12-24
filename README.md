@@ -6,6 +6,7 @@ Original repo: [https://github.com/d0iasm/sababook](https://github.com/d0iasm/sa
 
 ```sh
 # On shell
+python3 -m http.server 8000
 ./run_on_wasabi.sh
 
 # On QEMU
