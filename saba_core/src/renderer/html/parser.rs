@@ -1,13 +1,16 @@
-use core::{cell::RefCell, str::FromStr};
-
-use alloc::{rc::Rc, string::String, vec::Vec};
-
-use crate::renderer::dom::node::{Element, ElementKind, Node, NodeKind, Window};
-
-use super::{
-    attribute::Attribute,
-    token::{HtmlToken, HtmlTokenizer},
-};
+use crate::renderer::dom::node::Element;
+use crate::renderer::dom::node::ElementKind;
+use crate::renderer::dom::node::Node;
+use crate::renderer::dom::node::NodeKind;
+use crate::renderer::dom::node::Window;
+use crate::renderer::html::attribute::Attribute;
+use crate::renderer::html::token::HtmlToken;
+use crate::renderer::html::token::HtmlTokenizer;
+use alloc::rc::Rc;
+use alloc::string::String;
+use alloc::vec::Vec;
+use core::cell::RefCell;
+use core::str::FromStr;
 
 /// https://html.spec.whatwg.org/multipage/parsing.html#the-insertion-mode
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]

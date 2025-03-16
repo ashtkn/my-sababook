@@ -1,22 +1,26 @@
-use core::cell::RefCell;
-use core::i64;
-
-use alloc::rc::{Rc, Weak};
-use alloc::vec;
-use alloc::{
-    string::{String, ToString},
-    vec::Vec,
-};
-
-use crate::constants::{
-    CHAR_HEIGHT_WITH_PADDING, CHAR_WIDTH, CONTENT_AREA_WIDTH, WINDOW_PADDING, WINDOW_WIDTH,
-};
+use crate::alloc::string::ToString;
+use crate::constants::CHAR_HEIGHT_WITH_PADDING;
+use crate::constants::CHAR_WIDTH;
+use crate::constants::CONTENT_AREA_WIDTH;
+use crate::constants::WINDOW_PADDING;
+use crate::constants::WINDOW_WIDTH;
 use crate::display_item::DisplayItem;
-use crate::renderer::css::cssom::{ComponentValue, Declaration, Selector, StyleSheet};
-use crate::renderer::dom::node::{Node, NodeKind};
+use crate::renderer::css::cssom::ComponentValue;
+use crate::renderer::css::cssom::Declaration;
+use crate::renderer::css::cssom::Selector;
+use crate::renderer::css::cssom::StyleSheet;
+use crate::renderer::dom::node::Node;
+use crate::renderer::dom::node::NodeKind;
+use crate::renderer::layout::computed_style::Color;
+use crate::renderer::layout::computed_style::ComputedStyle;
+use crate::renderer::layout::computed_style::DisplayType;
 use crate::renderer::layout::computed_style::FontSize;
-
-use super::computed_style::{Color, ComputedStyle, DisplayType};
+use alloc::rc::Rc;
+use alloc::rc::Weak;
+use alloc::string::String;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cell::RefCell;
 
 /// https://drafts.csswg.org/css-text/#word-break-property
 fn find_index_for_line_break(line: String, max_index: usize) -> usize {

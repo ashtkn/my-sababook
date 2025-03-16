@@ -1,12 +1,12 @@
+use crate::renderer::dom::node::Element;
+use crate::renderer::dom::node::ElementKind;
+use crate::renderer::dom::node::Node;
+use crate::renderer::dom::node::NodeKind;
+use alloc::rc::Rc;
+use alloc::string::String;
+use alloc::string::ToString;
+use alloc::vec::Vec;
 use core::cell::RefCell;
-
-use alloc::{
-    rc::Rc,
-    string::{String, ToString},
-    vec::Vec,
-};
-
-use super::node::{Element, ElementKind, Node, NodeKind};
 
 pub fn get_target_element_node(
     node: Option<Rc<RefCell<Node>>>,

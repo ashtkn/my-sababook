@@ -1,17 +1,13 @@
-use core::{
-    cell::RefCell,
-    fmt::{Display, Formatter},
-    str::FromStr,
-};
-
-use alloc::{
-    format,
-    rc::{Rc, Weak},
-    string::String,
-    vec::Vec,
-};
-
 use crate::renderer::html::attribute::Attribute;
+use alloc::format;
+use alloc::rc::Rc;
+use alloc::rc::Weak;
+use alloc::string::String;
+use alloc::vec::Vec;
+use core::cell::RefCell;
+use core::fmt::Display;
+use core::fmt::Formatter;
+use core::str::FromStr;
 
 #[derive(Debug, Clone)]
 pub struct Window {

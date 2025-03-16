@@ -1,8 +1,7 @@
-use core::cell::RefCell;
-
-use alloc::{rc::Rc, vec::Vec};
-
 use crate::renderer::page::Page;
+use alloc::rc::Rc;
+use alloc::vec::Vec;
+use core::cell::RefCell;
 
 #[derive(Debug, Clone)]
 pub struct Browser {

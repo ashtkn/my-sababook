@@ -1,11 +1,9 @@
+use crate::alloc::string::ToString;
+use crate::renderer::css::token::CssToken;
+use crate::renderer::css::token::CssTokenizer;
+use alloc::string::String;
+use alloc::vec::Vec;
 use core::iter::Peekable;
-
-use alloc::{
-    string::{String, ToString},
-    vec::Vec,
-};
-
-use super::token::{CssToken, CssTokenizer};
 
 #[derive(Debug, Clone)]
 pub struct CssParser {

@@ -1,15 +1,12 @@
+use crate::error::Error;
+use crate::renderer::dom::node::ElementKind;
+use crate::renderer::dom::node::Node;
+use crate::renderer::dom::node::NodeKind;
+use alloc::format;
+use alloc::rc::Rc;
+use alloc::string::String;
+use alloc::string::ToString;
 use core::cell::RefCell;
-
-use alloc::{
-    format,
-    rc::Rc,
-    string::{String, ToString},
-};
-
-use crate::{
-    error::Error,
-    renderer::dom::node::{ElementKind, Node, NodeKind},
-};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ComputedStyle {

@@ -1,4 +1,5 @@
-use alloc::{string::String, vec::Vec};
+use alloc::string::String;
+use alloc::vec::Vec;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum CssToken {

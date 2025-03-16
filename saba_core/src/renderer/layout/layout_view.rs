@@ -1,22 +1,17 @@
+use crate::constants::CONTENT_AREA_WIDTH;
+use crate::display_item::DisplayItem;
+use crate::renderer::css::cssom::StyleSheet;
+use crate::renderer::dom::api::get_target_element_node;
+use crate::renderer::dom::node::ElementKind;
+use crate::renderer::dom::node::Node;
+use crate::renderer::layout::layout_object::create_layout_object;
+use crate::renderer::layout::layout_object::LayoutObject;
+use crate::renderer::layout::layout_object::LayoutObjectKind;
+use crate::renderer::layout::layout_object::LayoutPoint;
+use crate::renderer::layout::layout_object::LayoutSize;
+use alloc::rc::Rc;
+use alloc::vec::Vec;
 use core::cell::RefCell;
-
-use alloc::{rc::Rc, vec::Vec};
-
-use crate::{
-    constants::CONTENT_AREA_WIDTH,
-    display_item::DisplayItem,
-    renderer::{
-        css::cssom::StyleSheet,
-        dom::{
-            api::get_target_element_node,
-            node::{ElementKind, Node},
-        },
-    },
-};
-
-use super::layout_object::{
-    create_layout_object, LayoutObject, LayoutObjectKind, LayoutPoint, LayoutSize,
-};
 
 fn build_layout_tree(
     node: &Option<Rc<RefCell<Node>>>,
@@ -246,22 +241,17 @@ impl LayoutView {
 
 #[cfg(test)]
 mod tests {
-    use alloc::{
-        string::{String, ToString},
-        vec::Vec,
-    };
-
-    use crate::renderer::{
-        css::{cssom::CssParser, token::CssTokenizer},
-        dom::{
-            api::get_style_content,
-            node::{Element, NodeKind},
-        },
-        html::{parser::HtmlParser, token::HtmlTokenizer},
-        layout::layout_object::LayoutObjectKind,
-    };
-
-    use super::LayoutView;
+    use super::*;
+    use crate::alloc::string::ToString;
+    use crate::renderer::css::cssom::CssParser;
+    use crate::renderer::css::token::CssTokenizer;
+    use crate::renderer::dom::api::get_style_content;
+    use crate::renderer::dom::node::Element;
+    use crate::renderer::dom::node::NodeKind;
+    use crate::renderer::html::parser::HtmlParser;
+    use crate::renderer::html::token::HtmlTokenizer;
+    use alloc::string::String;
+    use alloc::vec::Vec;
 
     fn create_layout_view(html: String) -> LayoutView {
         let t = HtmlTokenizer::new(html);
