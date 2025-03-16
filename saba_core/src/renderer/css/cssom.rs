@@ -376,7 +376,7 @@ mod tests {
         rule2.set_selector(Selector::TypeSelector("h1".to_string()));
         let mut declaration2 = Declaration::new();
         declaration2.set_property("font-size".to_string());
-        declaration2.set_value(CssToken::Number(40.0));
+        declaration2.set_value(ComponentValue::Number(40.0));
         let mut declaration3 = Declaration::new();
         declaration3.set_property("color".to_string());
         declaration3.set_value(ComponentValue::Ident("blue".to_string()));

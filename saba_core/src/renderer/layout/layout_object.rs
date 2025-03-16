@@ -329,11 +329,11 @@ impl LayoutObject {
         }
     }
 
-    pub fn cascading_style(&mut self, decorations: Vec<Declaration>) {
-        for decoration in decorations {
-            match decoration.property.as_str() {
+    pub fn cascading_style(&mut self, declarations: Vec<Declaration>) {
+        for declaration in declarations {
+            match declaration.property.as_str() {
                 "background-color" => {
-                    if let ComponentValue::Ident(value) = &decoration.value {
+                    if let ComponentValue::Ident(value) = &declaration.value {
                         let color = match Color::from_name(&value) {
                             Ok(color) => color,
                             Err(_) => Color::white(),
@@ -341,7 +341,7 @@ impl LayoutObject {
                         self.style.set_background_color(color);
                         continue;
                     }
-                    if let ComponentValue::HashToken(color_code) = &decoration.value {
+                    if let ComponentValue::HashToken(color_code) = &declaration.value {
                         let color = match Color::from_code(&color_code) {
                             Ok(color) => color,
                             Err(_) => Color::white(),
@@ -351,7 +351,7 @@ impl LayoutObject {
                     }
                 }
                 "color" => {
-                    if let ComponentValue::Ident(value) = &decoration.value {
+                    if let ComponentValue::Ident(value) = &declaration.value {
                         let color = match Color::from_name(&value) {
                             Ok(color) => color,
                             Err(_) => Color::black(),
@@ -359,7 +359,7 @@ impl LayoutObject {
                         self.style.set_color(color);
                     }
 
-                    if let ComponentValue::HashToken(color_code) = &decoration.value {
+                    if let ComponentValue::HashToken(color_code) = &declaration.value {
                         let color = match Color::from_code(&color_code) {
                             Ok(color) => color,
                             Err(_) => Color::black(),
@@ -368,12 +368,12 @@ impl LayoutObject {
                     }
                 }
                 "display" => {
-                    if let ComponentValue::Ident(value) = decoration.value {
+                    if let ComponentValue::Ident(value) = declaration.value {
                         let display_type = match DisplayType::from_str(&value) {
                             Ok(display_type) => display_type,
                             Err(_) => DisplayType::DisplayNone,
                         };
-                        self.style.set_display(display_type);
+                        self.style.set_display(display_type)
                     }
                 }
                 _ => {}
