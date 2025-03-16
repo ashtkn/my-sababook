@@ -244,6 +244,26 @@ mod tests {
     }
 
     #[test]
+    fn test_class_selector() {
+        let style = ".class { color: red; }".to_string();
+        let mut t = CssTokenizer::new(style);
+        let expected = [
+            CssToken::Delim('.'),
+            CssToken::Ident("class".to_string()),
+            CssToken::OpenCurly,
+            CssToken::Ident("color".to_string()),
+            CssToken::Colon,
+            CssToken::Ident("red".to_string()),
+            CssToken::SemiColon,
+            CssToken::CloseCurly,
+        ];
+        for e in expected {
+            assert_eq!(Some(e.clone()), t.next());
+        }
+        assert!(t.next().is_none());
+    }
+
+    #[test]
     fn test_multiple_rules() {
         let style = "p { content: \"Hey\"; } h1 { font-size: 40; color: blue; }".to_string();
         let mut t = CssTokenizer::new(style);
