@@ -190,6 +190,7 @@ impl Element {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
+/// https://dom.spec.whatwg.org/#interface-element
 pub enum ElementKind {
     /// https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
     Html,

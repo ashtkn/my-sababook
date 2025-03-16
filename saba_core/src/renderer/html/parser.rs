@@ -530,7 +530,7 @@ mod tests {
         let head = html
             .borrow()
             .first_child()
-            .expect("failed to get a first child of document");
+            .expect("failed to get a first child of html");
         assert_eq!(
             Rc::new(RefCell::new(Node::new(NodeKind::Element(Element::new(
                 "head",
@@ -593,7 +593,7 @@ mod tests {
         let text = body
             .borrow()
             .first_child()
-            .expect("failed to get a first child of body");
+            .expect("failed to get a first child of document");
         assert_eq!(
             Rc::new(RefCell::new(Node::new(NodeKind::Text("text".to_string())))),
             text
@@ -613,7 +613,7 @@ mod tests {
             .expect("failed to get a first child of document")
             .borrow()
             .first_child()
-            .expect("failed to get first child html")
+            .expect("failed to get a first child of document")
             .borrow()
             .next_sibling()
             .expect("failed to get a next sibling of head");

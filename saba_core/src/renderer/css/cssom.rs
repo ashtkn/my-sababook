@@ -30,7 +30,7 @@ impl CssParser {
         match token {
             CssToken::Ident(ref ident) => ident.to_string(),
             _ => {
-                panic!("Parse error {:?} is an unexpected token", token);
+                panic!("Parse error: {:?} is an unexpected token.", token);
             }
         }
     }

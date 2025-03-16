@@ -64,7 +64,7 @@ pub fn create_layout_object(
                     .cascading_style(rule.declarations.clone());
             }
         }
-        // CSSでスタイルが適用されていない場合，デフォルトの値または親のノードから継承した値を使用する
+        // CSSでスタイルが指定されていない場合，デフォルトの値または親のノードから継承した値を使用する
         let parent_style = if let Some(parent) = parent_obj {
             Some(parent.borrow().style())
         } else {
