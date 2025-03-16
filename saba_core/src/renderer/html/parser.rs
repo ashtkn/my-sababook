@@ -119,12 +119,6 @@ impl HtmlParser {
                 .unwrap()
                 .borrow_mut()
                 .set_next_sibling(Some(node.clone()));
-            node.borrow_mut().set_previous_sibling(Rc::downgrade(
-                &current
-                    .borrow()
-                    .first_child()
-                    .expect("failed to get a first child"),
-            ));
         } else {
             current.borrow_mut().set_first_child(Some(node.clone()));
         }
@@ -161,14 +155,12 @@ impl HtmlParser {
                 }
             }
             last_sibling
+                .as_ref()
                 .unwrap()
                 .borrow_mut()
                 .set_next_sibling(Some(node.clone()));
             node.borrow_mut().set_previous_sibling(Rc::downgrade(
-                &current
-                    .borrow()
-                    .first_child()
-                    .expect("failed to get first child"),
+                &last_sibling.expect("last_sibling should be Some"),
             ));
         } else {
             current.borrow_mut().set_first_child(Some(node.clone()));
@@ -340,86 +332,89 @@ impl HtmlParser {
                     self.mode = InsertionMode::InBody;
                     continue;
                 }
-                InsertionMode::InBody => match token {
-                    Some(HtmlToken::StartTag {
-                        ref tag,
-                        self_closing: _,
-                        ref attributes,
-                    }) => match tag.as_str() {
-                        "p" => {
-                            self.insert_element(tag, attributes.to_vec());
-                            token = self.t.next();
-                            continue;
-                        }
-                        "h1" | "h2" => {
-                            self.insert_element(tag, attributes.to_vec());
-                            token = self.t.next();
-                            continue;
-                        }
-                        "a" => {
-                            self.insert_element(tag, attributes.to_vec());
-                            token = self.t.next();
-                            continue;
-                        }
-                        _ => {
-                            token = self.t.next();
-                        }
-                    },
-                    Some(HtmlToken::EndTag { ref tag }) => {
-                        match tag.as_str() {
-                            "body" => {
-                                self.mode = InsertionMode::AfterBody;
-                                token = self.t.next();
-                                if !self.contain_in_stack(ElementKind::Body) {
-                                    // パースの失敗。トークンを無視する
-                                    continue;
-                                }
-                                self.pop_until(ElementKind::Body);
-                                continue;
-                            }
-                            "html" => {
-                                if self.pop_current_node(ElementKind::Body) {
-                                    self.mode = InsertionMode::AfterBody;
-                                    assert!(self.pop_current_node(ElementKind::Html));
-                                } else {
-                                    token = self.t.next();
-                                }
-                            }
+                InsertionMode::InBody => {
+                    match token {
+                        Some(HtmlToken::StartTag {
+                            ref tag,
+                            self_closing: _,
+                            ref attributes,
+                        }) => match tag.as_str() {
                             "p" => {
-                                let element_kind = ElementKind::from_str(tag)
-                                    .expect("failed to convert string to ElementKind");
+                                self.insert_element(tag, attributes.to_vec());
                                 token = self.t.next();
-                                self.pop_until(element_kind);
                                 continue;
                             }
                             "h1" | "h2" => {
-                                let element_kind = ElementKind::from_str(tag)
-                                    .expect("failed to convert string to element kind");
+                                self.insert_element(tag, attributes.to_vec());
                                 token = self.t.next();
-                                self.pop_until(element_kind);
                                 continue;
                             }
                             "a" => {
-                                let element_kind = ElementKind::from_str(tag)
-                                    .expect("failed to convert string to ElementKind");
+                                self.insert_element(tag, attributes.to_vec());
                                 token = self.t.next();
-                                self.pop_until(element_kind);
                                 continue;
                             }
                             _ => {
                                 token = self.t.next();
                             }
+                        },
+                        Some(HtmlToken::EndTag { ref tag }) => {
+                            match tag.as_str() {
+                                "body" => {
+                                    self.mode = InsertionMode::AfterBody;
+                                    token = self.t.next();
+                                    if !self.contain_in_stack(ElementKind::Body) {
+                                        // パースの失敗。トークンを無視する
+                                        continue;
+                                    }
+                                    self.pop_until(ElementKind::Body);
+                                    continue;
+                                }
+                                "html" => {
+                                    if self.pop_current_node(ElementKind::Body) {
+                                        self.mode = InsertionMode::AfterBody;
+                                        assert!(self.pop_current_node(ElementKind::Html));
+                                    } else {
+                                        token = self.t.next();
+                                    }
+                                    continue;
+                                }
+                                "p" => {
+                                    let element_kind = ElementKind::from_str(tag)
+                                        .expect("failed to convert string to ElementKind");
+                                    token = self.t.next();
+                                    self.pop_until(element_kind);
+                                    continue;
+                                }
+                                "h1" | "h2" => {
+                                    let element_kind = ElementKind::from_str(tag)
+                                        .expect("failed to convert string to ElementKind");
+                                    token = self.t.next();
+                                    self.pop_until(element_kind);
+                                    continue;
+                                }
+                                "a" => {
+                                    let element_kind = ElementKind::from_str(tag)
+                                        .expect("failed to convert string to ElementKind");
+                                    token = self.t.next();
+                                    self.pop_until(element_kind);
+                                    continue;
+                                }
+                                _ => {
+                                    token = self.t.next();
+                                }
+                            }
+                        }
+                        Some(HtmlToken::Eof) | None => {
+                            return self.window.clone();
+                        }
+                        Some(HtmlToken::Char(c)) => {
+                            self.insert_char(c);
+                            token = self.t.next();
+                            continue;
                         }
                     }
-                    Some(HtmlToken::Eof) | None => {
-                        return self.window.clone();
-                    }
-                    Some(HtmlToken::Char(c)) => {
-                        self.insert_char(c);
-                        token = self.t.next();
-                        continue;
-                    }
-                },
+                }
                 InsertionMode::Text => {
                     match token {
                         Some(HtmlToken::Eof) | None => {

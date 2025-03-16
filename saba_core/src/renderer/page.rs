@@ -67,7 +67,14 @@ impl Page {
     fn create_frame(&mut self, html: String) {
         let html_tokenizer = HtmlTokenizer::new(html);
         let frame = HtmlParser::new(html_tokenizer).construct_tree();
+        let dom = frame.borrow().document();
+
+        let style = get_style_content(dom);
+        let css_tokenizer = CssTokenizer::new(style);
+        let cssom = CssParser::new(css_tokenizer).parse_stylesheet();
+
         self.frame = Some(frame);
+        self.style = Some(cssom);
     }
 
     fn set_layout_view(&mut self) {
