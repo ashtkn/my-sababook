@@ -11,6 +11,12 @@ python3 -m http.server 8000
 
 # On QEMU
 saba
+
+# Then go to:
+# - http://host.test:8000/test.html
+# - http://host.test:8000/test1.html
+# - http://host.test:8000/test2.html
+# - http://example.com
 ```
 
 ## Test
@@ -20,3 +26,7 @@ saba
 cd saba_core
 cargo test
 ```
+
+## Screenshot
+
+![Screenshot](screenshot.png)
